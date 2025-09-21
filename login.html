@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - Hope</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f1724;
+      --card: #0b1220;
+      --accent: #7c3aed;
+      --muted: #9ca3af;
+      --glass: rgba(255, 255, 255, 0.03);
+    }
+    * { box-sizing: border-box }
+    html, body { height: 100%; margin:0; }
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+      background: #000000;
+      color: #e6eef8;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index:0; }
+    .login-wrap {
+      position:relative;
+      z-index:1;
+      width:100%;
+      max-width:420px;
+      background:linear-gradient(180deg, rgba(36, 68, 124, 0.06), rgba(24, 62, 114, 0.03));
+      border-radius:14px;
+      padding:28px;
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
+    }
+    h1 { margin:0 0 12px; text-align:center; }
+    p.lead { text-align:center; margin:0 0 18px; color:var(--muted); }
+    .form-group { margin-bottom:14px; }
+    label { display:block; font-size:13px; margin-bottom:6px; color:#dbeafe; }
+    input[type="text"], input[type="password"] {
+      width:100%; padding:12px; border-radius:10px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:var(--glass); color:inherit;
+    }
+    .primary {
+      width:100%; padding:12px; border-radius:10px;
+      border:0; background:linear-gradient(90deg,var(--accent),#4f46e5);
+      color:white; font-weight:600; font-size:15px; cursor:pointer;
+      box-shadow:0 8px 24px rgba(79,70,229,0.2);
+    }
+     
+        
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="login-wrap">
+    <h1>Hope</h1>
+    <p class="lead">A safe space for youth wellness</p>
+    <form>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="text" placeholder="you@example.com" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" placeholder="Your password" required>
+      </div>
+      <a href="dashboard.html" class="primary">Sign in</a>
+    </form>
+  </div>
+
+  <!-- Three.js -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/jsm/geometries/TextGeometry.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/jsm/loaders/FontLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/fonts/helvetiker_regular.typeface.json"></script>
+
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha:true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Lighting
+    const pointLight = new THREE.PointLight(0xffffff, 1);
+    pointLight.position.set(5,5,5);
+    scene.add(pointLight);
+
+    // Starfield
+    function addStar(){
+      const geometry = new THREE.SphereGeometry(0.1, 24, 24);
+      const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
+      const star = new THREE.Mesh(geometry, material);
+      const [x,y,z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(100));
+      star.position.set(x,y,z);
+      scene.add(star);
+    }
+    Array(200).fill().forEach(addStar);
+
+    // Text Logo "HOPE"
+    const loader = new THREE.FontLoader();
+    loader.load('https://cdn.jsdelivr.net/npm/three@0.155.0/examples/fonts/helvetiker_regular.typeface.json', function(font){
+      const textGeo = new THREE.TextGeometry('HOPE', {
+        font: font,
+        size: 2,
+        height: 0.5,
+        curveSegments: 12,
+        bevelEnabled: true,
+        bevelThickness: 0.03,
+        bevelSize: 0.02,
+        bevelSegments: 5
+      });
+      const textMaterial = new THREE.MeshStandardMaterial({ color: 0x7c3aed, metalness:0.6, roughness:0.3 });
+      const textMesh = new THREE.Mesh(textGeo, textMaterial);
+      textMesh.position.set(-3,0,-10);
+      scene.add(textMesh);
+
+      // Animate rotation
+      function animate(){
+        requestAnimationFrame(animate);
+        textMesh.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      }
+      animate();
+    });
+
+    camera.position.z = 5;
+    window.addEventListener('resize', ()=>{
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
+

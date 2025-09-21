@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Therapy Hub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            background: white;
+            color: #6e8efb;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: #6e8efb;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #6e8efb;
+        }
+        
+        .btn-primary:hover {
+            background: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        
+        .welcome-text {
+            font-size: 18px;
+            color: #7a7a7a;
+            margin-bottom: 5px;
+        }
+        
+        .profile-name {
+            font-size: 42px;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .profile-bio {
+            color: #7a7a7a;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        
+        .therapy-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            color: white;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-title i {
+            background: white;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .therapy-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .tab-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 12px 24px;
+            background: #f0f4ff;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab.active {
+            background: #6e8efb;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .cbt-exercise {
+            background: #f9fafc;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .thought-input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        
+        .thought-input:focus {
+            outline: none;
+            border-color: #6e8efb;
+        }
+        
+        .meditation-player {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #6e8efb;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 20px auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            background: #5a7ce2;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #6e8efb;
+            width: 30%;
+            border-radius: 10px;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            color: #7a7a7a;
+            font-size: 14px;
+        }
+        
+        .breathing-container {
+            text-align: center;
+            margin: 30px auto;
+            max-width: 500px;
+        }
+        
+        .breathing-animation {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: #6e8efb;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            transition: all 4s ease-in-out;
+        }
+        
+        .breathing-text {
+            font-size: 24px;
+            margin: 20px 0;
+            min-height: 40px;
+        }
+        
+        .breathing-instruction {
+            color: #7a7a7a;
+            margin-bottom: 20px;
+        }
+        
+        .art-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .canvas-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        #artCanvas {
+            width: 100%;
+            height: 300px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: white;
+            cursor: crosshair;
+            touch-action: none;
+        }
+        
+        .tools {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .tool-btn {
+            padding: 10px 15px;
+            background: #f0f4ff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tool-btn.active {
+            background: #6e8efb;
+            color: white;
+        }
+        
+        .color-picker {
+            display: flex;
+            gap: 5px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+        }
+        
+        .color {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .color.active {
+            border-color: #333;
+            transform: scale(1.2);
+        }
+        
+        .brush-size {
+            margin: 10px 0;
+        }
+        
+        .music-player {
+            text-align: center;
+        }
+        
+        .playlist {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .playlist-item {
+            padding: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .playlist-item:hover {
+            background: #f9fafc;
+        }
+        
+        .playlist-item.active {
+            background: #f0f4ff;
+        }
+        
+        .mood-selector {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .mood-btn {
+            padding: 10px 20px;
+            background: #f0f4ff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mood-btn.active {
+            background: #6e8efb;
+            color: white;
+        }
+        
+        .thought-challenge-result {
+            background: #e6f7ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .art-container {
+                flex-direction: column;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .profile-name {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>Mindful Therapy Hub</span>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline"><i class="fas fa-bell"></i></button>
+                <button class="btn btn-primary"><i class="fas fa-cog"></i> Settings</button>
+            </div>
+        </header>
+        
+        <section class="profile-section">
+            <p class="welcome-text">Welcome to your therapy hub,</p>
+            <h1 class="profile-name">Safa</h1>
+            <p class="profile-bio">Explore these therapeutic tools designed to support your mental wellness journey.</p>
+        </section>
+        
+        <!-- CBT Section -->
+        <section class="therapy-section">
+            <h2 class="section-title">
+                <i class="fas fa-brain" style="color: #6e8efb;"></i>
+                Cognitive Behavioral Therapy (CBT)
+            </h2>
+            
+            <div class="therapy-content">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="thought-challenge">Thought Challenges</div>
+                    <div class="tab" data-tab="cbt-prompts">Daily Prompts</div>
+                    <div class="tab" data-tab="mood-tracking">Mood Tracking</div>
+                </div>
+                
+                <div class="tab-content active" id="thought-challenge">
+                    <h3>Challenge Negative Thoughts</h3>
+                    <p>Write down a negative thought you're having and we'll help you reframe it.</p>
+                    
+                    <div class="cbt-exercise">
+                        <input type="text" class="thought-input" id="negativeThought" placeholder="Enter your negative thought here...">
+                        <button class="btn btn-primary" id="challengeThought">Challenge This Thought</button>
+                    </div>
+                    
+                    <div class="thought-challenge-result" id="thoughtChallengeResult">
+                        <h4>Alternative Perspectives:</h4>
+                        <p id="alternativeText"></p>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="cbt-prompts">
+                    <h3>Today's CBT Prompt</h3>
+                    <div class="cbt-exercise">
+                        <p id="dailyPrompt">What is one thought pattern that frequently bothers you, and what evidence supports or contradicts it?</p>
+                        <textarea class="thought-input" placeholder="Write your response here..." rows="4"></textarea>
+                        <button class="btn btn-primary">Save Response</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="mood-tracking">
+                    <h3>Track Your Mood & Thoughts</h3>
+                    <div class="cbt-exercise">
+                        <p>How are you feeling today?</p>
+                        <select class="thought-input" id="moodSelect">
+                            <option value="happy">😊 Happy</option>
+                            <option value="sad">😢 Sad</option>
+                            <option value="anxious">😰 Anxious</option>
+                            <option value="angry">😠 Angry</option>
+                            <option value="calm">😌 Calm</option>
+                        </select>
+                        
+                        <p>What thoughts are associated with this mood?</p>
+                        <textarea class="thought-input" placeholder="Describe your thoughts..." rows="4"></textarea>
+                        
+                        <button class="btn btn-primary">Save Entry</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Mindfulness Section -->
+        <section class="therapy-section">
+            <h2 class="section-title">
+                <i class="fas fa-spa" style="color: #a777e3;"></i>
+                Mindfulness & Meditation
+            </h2>
+            
+            <div class="therapy-content">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="meditation">Guided Meditation</div>
+                    <div class="tab" data-tab="breathing">Breathing Exercise</div>
+                    <div class="tab" data-tab="reminders">Mindful Reminders</div>
+                </div>
+                
+                <div class="tab-content active" id="meditation">
+                    <div class="meditation-player">
+                        <h3>5-Minute Breathing Meditation</h3>
+                        <p>Find a comfortable position and focus on your breath</p>
+                        
+                        <div class="play-btn">
+                            <i class="fas fa-play"></i>
+                        </div>
+                        
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                        </div>
+                        
+                        <div class="time-display">
+                            <span>0:00</span>
+                            <span>5:00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="breathing">
+                    <div class="breathing-container">
+                        <h3>Box Breathing Exercise</h3>
+                        <p class="breathing-instruction">Inhale for 4 seconds, hold for 4 seconds, exhale for 4 seconds, hold for 4 seconds</p>
+                        
+                        <div class="breathing-animation" id="breathingCircle">
+                            <span id="breath-text">Breathe In</span>
+                        </div>
+                        
+                        <div class="breathing-text" id="breathInstruction">Click Start to begin</div>
+                        
+                        <button class="btn btn-primary" id="startBreathing">Start Breathing</button>
+                        <button class="btn btn-outline" id="pauseBreathing" style="display: none;">Pause</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="reminders">
+                    <h3>Set Mindful Break Reminders</h3>
+                    <div class="cbt-exercise">
+                        <p>Schedule regular mindfulness breaks throughout your day</p>
+                        
+                        <div style="margin: 20px 0;">
+                            <label>
+                                <input type="checkbox" checked> 10:00 AM
+                            </label>
+                            <label style="margin-left: 15px;">
+                                <input type="checkbox" checked> 1:00 PM
+                            </label>
+                            <label style="margin-left: 15px;">
+                                <input type="checkbox"> 4:00 PM
+                            </label>
+                        </div>
+                        
+                        <button class="btn btn-primary">Save Reminders</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Art Therapy Section -->
+        <section class="therapy-section">
+            <h2 class="section-title">
+                <i class="fas fa-paint-brush" style="color: #4cc9f0;"></i>
+                Art Therapy
+            </h2>
+            
+            <div class="therapy-content">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="sketchpad">Digital Sketchpad</div>
+                    <div class="tab" data-tab="journaling">Creative Journaling</div>
+                    <div class="tab" data-tab="gallery">My Gallery</div>
+                </div>
+                
+                <div class="tab-content active" id="sketchpad">
+                    <h3>Express Yourself Through Art</h3>
+                    
+                    <div class="art-container">
+                        <div class="canvas-container">
+                            <canvas id="artCanvas"></canvas>
+                            
+                            <div class="tools">
+                                <button class="tool-btn active" data-tool="pencil">Pencil</button>
+                                <button class="tool-btn" data-tool="brush">Brush</button>
+                                <button class="tool-btn" data-tool="eraser">Eraser</button>
+                                <button class="tool-btn" id="clearCanvas">Clear Canvas</button>
+                            </div>
+                            
+                            <div class="color-picker">
+                                <div class="color active" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
+                                <div class="color" style="background: #ff9f68;" data-color="#ff9f68"></div>
+                                <div class="color" style="background: #feca57;" data-color="#feca57"></div>
+                                <div class="color" style="background: #48dbb5;" data-color="#48dbb5"></div>
+                                <div class="color" style="background: #6e8efb;" data-color="#6e8efb"></div>
+                                <div class="color" style="background: #a777e3;" data-color="#a777e3"></div>
+                                <div class="color" style="background: #000000;" data-color="#000000"></div>
+                            </div>
+                            
+                            <div class="brush-size">
+                                <label>Brush Size: <span id="brushSizeValue">2</span>px</label>
+                                <input type="range" id="brushSize" min="1" max="20" value="2">
+                            </div>
+                        </div>
+                        
+                        <div style="flex: 1; min-width: 250px;">
+                            <h4>How does this art reflect your current emotions?</h4>
+                            <textarea class="thought-input" placeholder="Describe your artwork and emotions..." rows="5"></textarea>
+                            <button class="btn btn-primary" style="margin-top: 10px;">Save to Gallery</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="journaling">
+                    <h3>Creative Journaling</h3>
+                    <div class="cbt-exercise">
+                        <p>Today's Prompt: If your mood was a landscape, what would it look like?</p>
+                        <textarea class="thought-input" placeholder="Write or describe your response here..." rows="8"></textarea>
+                        <button class="btn btn-primary">Save Entry</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="gallery">
+                    <h3>Your Art Gallery</h3>
+                    <p>Your saved artwork will appear here</p>
+                    <div style="text-align: center; padding: 30px; background: #f9f9f9; border-radius: 10px; margin-top: 20px;">
+                        <i class="fas fa-image" style="font-size: 50px; color: #e0e0e0;"></i>
+                        <p>No artwork saved yet</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Music Therapy Section -->
+        <section class="therapy-section">
+            <h2 class="section-title">
+                <i class="fas fa-music" style="color: #ff6f61;"></i>
+                Music Therapy
+            </h2>
+            
+            <div class="therapy-content">
+                <div class="tab-container">
+                    <div class="tab active" data-tab="playlists">Mood Playlists</div>
+                    <div class="tab" data-tab="soundscapes">Soundscapes</div>
+                    <div class="tab" data-tab="music-diary">Music Diary</div>
+                </div>
+                
+                <div class="tab-content active" id="playlists">
+                    <div class="music-player">
+                        <h3>Select a Playlist for Your Current Mood</h3>
+                        
+                        <div class="mood-selector">
+                            <div class="mood-btn active" data-mood="relax">Relax</div>
+                            <div class="mood-btn" data-mood="focus">Focus</div>
+                            <div class="mood-btn" data-mood="uplift">Uplift</div>
+                        </div>
+                        
+                        <div class="playlist">
+                            <div class="playlist-item active">
+                                <i class="fas fa-play-circle" style="color: #6e8efb;"></i>
+                                <div>
+                                    <div>Calming Piano</div>
+                                    <div style="font-size: 14px; color: #7a7a7a;">45 min • Relaxation</div>
+                                </div>
+                            </div>
+                            
+                            <div class="playlist-item">
+                                <i class="fas fa-play-circle" style="color: #6e8efb;"></i>
+                                <div>
+                                    <div>Nature Sounds</div>
+                                    <div style="font-size: 14px; color: #7a7a7a;">60 min • Meditation</div>
+                                </div>
+                            </div>
+                            
+                            <div class="playlist-item">
+                                <i class="fas fa-play-circle" style="color: #6e8efb;"></i>
+                                <div>
+                                    <div>Ambient Relaxation</div>
+                                    <div style="font-size: 14px; color: #7a7a7a;">30 min • Stress Relief</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="soundscapes">
+                    <div class="music-player">
+                        <h3>AI-Generated Soundscapes</h3>
+                        <p>Select an environment to help you focus or relax</p>
+                        
+                        <div style="display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap;">
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; background: #f0f4ff; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-water" style="font-size: 30px; color: #6e8efb;"></i>
+                                </div>
+                                <p>Ocean Waves</p>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; background: #f0f4ff; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-tree" style="font-size: 30px; color: #48dbb5;"></i>
+                                </div>
+                                <p>Forest</p>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; background: #f0f4ff; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-fire" style="font-size: 30px; color: #ff9f68;"></i>
+                                </div>
+                                <p>Fireplace</p>
+                            </div>
+                            
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; background: #f0f4ff; border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                    <i class="fas fa-cloud-rain" style="font-size: 30px; color: #6e8efb;"></i>
+                                </div>
+                                <p>Rainfall</p>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary">Generate Custom Soundscape</button>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="music-diary">
+                    <h3>Music Diary</h3>
+                    <p>Track how different music affects your mood</p>
+                    
+                    <div class="cbt-exercise">
+                        <p>What are you listening to right now?</p>
+                        <input type="text" class="thought-input" placeholder="Song or artist name">
+                        
+                        <p>How does it make you feel?</p>
+                        <textarea class="thought-input" placeholder="Describe the emotions and thoughts this music evokes..." rows="4"></textarea>
+                        
+                        <button class="btn btn-primary">Add to Diary</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer>
+            <p>© 2023 Mindful Therapy Hub. All rights reserved. Your mental health journey is important to us.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                // Add active class to clicked tab
+                tab.classList.add('active');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                // Show the corresponding tab content
+                const tabId = tab.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // CBT Thought Challenge - FULLY WORKING
+        document.getElementById('challengeThought').addEventListener('click', () => {
+            const thoughtInput = document.getElementById('negativeThought').value;
+            if (thoughtInput.trim() !== '') {
+                const alternatives = [
+                    `Is there another way to look at "${thoughtInput}"? Sometimes our minds jump to conclusions without considering all possibilities.`,
+                    `What would you tell a friend who had the thought "${thoughtInput}"? We're often kinder to others than to ourselves.`,
+                    `What evidence supports or contradicts "${thoughtInput}"? Try to look at the situation objectively.`,
+                    `How might you reframe "${thoughtInput}" in a more balanced way? For example, instead of "I always fail," try "I didn't succeed this time, but I can learn from this experience."`,
+                    `Is "${thoughtInput}" based on facts or feelings? Our emotions can sometimes distort our perception of reality.`
+                ];
+                
+                const randomAlternative = alternatives[Math.floor(Math.random() * alternatives.length)];
+                document.getElementById('alternativeText').textContent = randomAlternative;
+                document.getElementById('thoughtChallengeResult').style.display = 'block';
+            } else {
+                alert('Please enter a negative thought to challenge.');
+            }
+        });
+        
+        // Breathing Exercise - FULLY WORKING
+        const breathingCircle = document.getElementById('breathingCircle');
+        const breathText = document.getElementById('breath-text');
+        const breathInstruction = document.getElementById('breathInstruction');
+        const startButton = document.getElementById('startBreathing');
+        const pauseButton = document.getElementById('pauseBreathing');
+        
+        let breathingInterval;
+        let isBreathingActive = false;
+        let breathingPhase = 0; // 0: inhale, 1: hold after inhale, 2: exhale, 3: hold after exhale
+        
+        const breathingPhases = [
+            { name: 'Breathe In', duration: 4000, instruction: 'Inhale slowly through your nose...' },
+            { name: 'Hold', duration: 4000, instruction: 'Hold your breath...' },
+            { name: 'Breathe Out', duration: 4000, instruction: 'Exhale slowly through your mouth...' },
+            { name: 'Hold', duration: 4000, instruction: 'Hold your breath...' }
+        ];
+        
+        function startBreathing() {
+            if (isBreathingActive) return;
+            
+            isBreathingActive = true;
+            startButton.style.display = 'none';
+            pauseButton.style.display = 'inline-block';
+            
+            breathingPhase = 0;
+            updateBreathing();
+            
+            breathingInterval = setInterval(() => {
+                breathingPhase = (breathingPhase + 1) % 4;
+                updateBreathing();
+            }, 4000);
+        }
+        
+        function pauseBreathing() {
+            isBreathingActive = false;
+            startButton.style.display = 'inline-block';
+            pauseButton.style.display = 'none';
+            clearInterval(breathingInterval);
+            
+            breathingCircle.style.transform = 'scale(1)';
+            breathingCircle.style.backgroundColor = '#6e8efb';
+            breathText.textContent = 'Paused';
+            breathInstruction.textContent = 'Breathing exercise paused';
+        }
+        
+        function updateBreathing() {
+            const phase = breathingPhases[breathingPhase];
+            breathText.textContent = phase.name;
+            breathInstruction.textContent = phase.instruction;
+            
+            if (breathingPhase === 0) { // Inhale
+                breathingCircle.style.transform = 'scale(1.5)';
+                breathingCircle.style.backgroundColor = '#48dbb5';
+            } else if (breathingPhase === 1) { // Hold after inhale
+                breathingCircle.style.transform = 'scale(1.5)';
+                breathingCircle.style.backgroundColor = '#6e8efb';
+            } else if (breathingPhase === 2) { // Exhale
+                breathingCircle.style.transform = 'scale(1)';
+                breathingCircle.style.backgroundColor = '#a777e3';
+            } else { // Hold after exhale
+                breathingCircle.style.transform = 'scale(1)';
+                breathingCircle.style.backgroundColor = '#6e8efb';
+            }
+        }
+        
+        startButton.addEventListener('click', startBreathing);
+        pauseButton.addEventListener('click', pauseBreathing);
+        
+        // Art Canvas - FULLY WORKING
+        const canvas = document.getElementById('artCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0;
+        let lastY = 0;
+        let selectedTool = 'pencil';
+        let selectedColor = '#ff6b6b';
+        let brushSize = 2;
+        
+        // Set canvas size
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+        
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getMousePos(canvas, e);
+            [lastX, lastY] = [pos.x, pos.y];
+        }
+        
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            const pos = getMousePos(canvas, e);
+            
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.strokeStyle = selectedTool === 'eraser' ? '#FFFFFF' : selectedColor;
+            ctx.lineWidth = selectedTool === 'eraser' ? 20 : brushSize;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.stroke();
+            
+            [lastX, lastY] = [pos.x, pos.y];
+        }
+        
+        function stopDrawing() {
+            isDrawing = false;
+        }
+        
+        function getMousePos(canvas, evt) {
+            const rect = canvas.getBoundingClientRect();
+            return {
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+        
+        // Event listeners for drawing
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseout', stopDrawing);
+        
+        // Touch events for mobile devices
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            startDrawing(e.touches[0]);
+        });
+        
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            draw(e.touches[0]);
+        });
+        
+        canvas.addEventListener('touchend', stopDrawing);
+        
+        // Tool selection
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedTool = btn.getAttribute('data-tool');
+            });
+        });
+        
+        // Color selection
+        document.querySelectorAll('.color').forEach(colorBtn => {
+            colorBtn.addEventListener('click', () => {
+                document.querySelectorAll('.color').forEach(c => c.classList.remove('active'));
+                colorBtn.classList.add('active');
+                selectedColor = colorBtn.getAttribute('data-color');
+            });
+        });
+        
+        // Brush size
+        const brushSizeSlider = document.getElementById('brushSize');
+        const brushSizeValue = document.getElementById('brushSizeValue');
+        
+        brushSizeSlider.addEventListener('input', () => {
+            brushSize = brushSizeSlider.value;
+            brushSizeValue.textContent = brushSize;
+        });
+        
+        // Clear canvas
+        document.getElementById('clearCanvas').addEventListener('click', () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+        
+        // Mood selection for music
+        document.querySelectorAll('.mood-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+        
+        // Playlist selection
+        document.querySelectorAll('.playlist-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.playlist-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

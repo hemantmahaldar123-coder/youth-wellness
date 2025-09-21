@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safa's Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            background: white;
+            color: #6e8efb;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background: white;
+            color: #6e8efb;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: #6e8efb;
+        }
+        
+        .btn-primary:hover {
+            background: #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .profile-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+        
+        .welcome-text {
+            font-size: 18px;
+            color: #7a7a7a;
+            margin-bottom: 5px;
+        }
+        
+        .profile-name {
+            font-size: 42px;
+            color: #4a4a4a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .profile-bio {
+            color: #7a7a7a;
+            max-width: 600px;
+            margin: 0 auto 20px;
+            line-height: 1.6;
+            font-size: 18px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #6e8efb;
+        }
+        
+        .stat-label {
+            color: #7a7a7a;
+            font-size: 14px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .dashboard-item {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .dashboard-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .dashboard-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .dashboard-item:hover::before {
+            opacity: 1;
+        }
+        
+        .item-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            transition: all 0.4s ease;
+        }
+        
+        .dashboard-item:hover .item-icon {
+            transform: scale(1.2) rotate(5deg);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .item-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #4a4a4a;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-item:hover .item-title {
+            color: #2c2c2c;
+            transform: translateY(-5px);
+        }
+        
+        .item-desc {
+            color: #7a7a7a;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-item:hover .item-desc {
+            transform: translateY(-3px);
+        }
+        
+        .item-link {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .dashboard-item:hover .item-link {
+            transform: translateX(5px);
+            color: #4a72e5;
+        }
+        
+        .games .item-icon { background: rgba(110, 142, 251, 0.1); color: #6e8efb; }
+        .therapy .item-icon { background: rgba(167, 119, 227, 0.1); color: #a777e3; }
+        .chatbot .item-icon { background: rgba(76, 201, 240, 0.1); color: #4cc9f0; }
+        .helpline .item-icon { background: rgba(255, 111, 97, 0.1); color: #ff6f61; }
+        .mood .item-icon { background: rgba(253, 203, 110, 0.1); color: #fdcb6e; }
+        .diary .item-icon { background: rgba(72, 219, 181, 0.1); color: #48dbb5; }
+        
+        /* Hover background colors */
+        .dashboard-item.games:hover { background: linear-gradient(135deg, #6e8efb, #8aa6fc); }
+        .dashboard-item.therapy:hover { background: linear-gradient(135deg, #a777e3, #bb95eb); }
+        .dashboard-item.chatbot:hover { background: linear-gradient(135deg, #4cc9f0, #74d5f3); }
+        .dashboard-item.helpline:hover { background: linear-gradient(135deg, #ff6f61, #ff8e83); }
+        .dashboard-item.mood:hover { background: linear-gradient(135deg, #fdcb6e, #fed88d); }
+        .dashboard-item.diary:hover { background: linear-gradient(135deg, #48dbb5, #70e3c8); }
+        
+        /* Text color on hover */
+        .dashboard-item:hover .item-title,
+        .dashboard-item:hover .item-desc,
+        .dashboard-item:hover .item-link {
+            color: white;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .profile-name {
+                font-size: 32px;
+            }
+            
+            .dashboard-item:hover {
+                transform: translateY(-5px) scale(1.01);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>HOPE</span>
+            </div>
+            <div class="user-actions">
+                <button class="btn btn-outline"><i class="fas fa-bell"></i></button>
+                <button class="btn btn-primary"><i class="fas fa-cog"></i> Settings</button>
+            </div>
+        </header>
+        
+        <section class="profile-section">
+            <p class="welcome-text">Welcome back,</p>
+            <h1 class="profile-name">Safa</h1>
+            <p class="profile-bio">Welcome to your personal mental wellness dashboard. Here you can access tools and resources to support your mental health journey.</p>
+            
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">14</div>
+                    <div class="stat-label">Wellness Streak</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">87%</div>
+                    <div class="stat-label">Current Mood</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Active Goals</div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="dashboard-grid">
+            <div class="dashboard-item games">
+                <div class="item-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h2 class="item-title">Games</h2>
+                <p class="item-desc">Engage with therapeutic games designed to reduce stress and improve cognitive skills.</p>
+                <a href="gamified.html" class="item-link">Play now <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="dashboard-item therapy">
+                <div class="item-icon">
+                    <i class="fas fa-hand-holding-heart"></i>
+                </div>
+                <h2 class="item-title">Therapy</h2>
+                <p class="item-desc">Book sessions AI licensed therapists and access your scheduled appointments.</p>
+                <a href="therapy.html" class="item-link">View sessions <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="dashboard-item chatbot">
+                <div class="item-icon">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h2 class="item-title">AI Chatbot</h2>
+                <p class="item-desc">Chat with our supportive AI assistant for immediate guidance and resources.</p>
+                <a href="AI_Chatbot.html" class="item-link">Start chat <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="dashboard-item helpline">
+                <div class="item-icon">
+                    <i class="fas fa-phone-alt"></i>
+                </div>
+                <h2 class="item-title">24/7 Helpline</h2>
+                <p class="item-desc">Immediate support is available anytime through our crisis helpline.</p>
+                <a href="help.html" class="item-link">Call now <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="dashboard-item mood">
+                <div class="item-icon">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <h2 class="item-title">Mood Tracker</h2>
+                <p class="item-desc">Log your emotions and track patterns in your mental wellbeing over time.</p>
+                <a href="mood.html" class="item-link">Track mood <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="dashboard-item diary">
+                <div class="item-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <h2 class="item-title">Diary</h2>
+                <p class="item-desc">Record your thoughts and reflections in your private, encrypted journal.</p>
+                <a href="dairy.html" class="item-link">Write entry <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 MindCare. All rights reserved. Your mental health journey is important to us.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Enhanced animation for dashboard items
+        document.addEventListener('DOMContentLoaded', function() {
+            const items = document.querySelectorAll('.dashboard-item');
+            
+            items.forEach((item, index) => {
+                // Add slight delay for each item
+                item.style.animation = `fadeIn 0.6s ease ${index * 0.1}s forwards`;
+                item.style.opacity = 0;
+                
+                // Add event listeners for additional effects
+                item.addEventListener('mouseenter', function() {
+                    this.style.zIndex = 10;
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.zIndex = 1;
+                });
+            });
+            
+            // Add keyframes for fadeIn
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes fadeIn {
+                    from { 
+                        opacity: 0; 
+                        transform: translateY(30px) rotate3d(1, 0, 0, 30deg);
+                    }
+                    to { 
+                        opacity: 1; 
+                        transform: translateY(0) rotate3d(0, 0, 0, 0);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Map - Youth Mental Wellness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(120deg, #2196f3 0%, #0d47a1 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .tagline {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 25px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid #e3f2fd;
+        }
+        
+        h2 {
+            color: #1565c0;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e3f2fd;
+        }
+        
+        .mood-options {
+            display: flex;
+            justify-content: space-between;
+            margin: 25px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .mood-option {
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            padding: 12px 8px;
+            border-radius: 15px;
+            width: 100px;
+            flex-shrink: 0;
+        }
+        
+        .mood-option:hover {
+            transform: scale(1.05);
+            background: #f5f9ff;
+        }
+        
+        .mood-emoji {
+            font-size: 40px;
+            margin-bottom: 8px;
+        }
+        
+        .mood-name {
+            font-weight: 500;
+            color: #444;
+            font-size: 0.9rem;
+        }
+        
+        .selected {
+            background: #e3f2fd;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+        }
+        
+        .note-section {
+            margin: 20px 0;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 1px solid #bbdefb;
+            border-radius: 10px;
+            resize: none;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+        
+        button {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+        }
+        
+        button:hover {
+            background: #0d47a1;
+        }
+        
+        .quote {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin: 25px 0;
+            padding: 15px;
+            background: #f0f8ff;
+            border-radius: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .progress-chart {
+            background: #f8fdff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin: 25px 0;
+        }
+        
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 20px 0;
+            border-bottom: 1px solid #e3f2fd;
+            margin-bottom: 20px;
+        }
+        
+        .chart-bar {
+            width: 40px;
+            background: linear-gradient(to top, #2196f3 0%, #0d47a1 100%);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: height 1s;
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .stat-item {
+            flex: 1;
+        }
+        
+        .stat-item h3 {
+            font-size: 2rem;
+            color: #2196f3;
+            margin-bottom: 5px;
+        }
+        
+        .stat-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .insights {
+            background: #f0f8ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .insights p {
+            margin-bottom: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            background: #f5f9ff;
+        }
+        
+        @media (max-width: 600px) {
+            .mood-options {
+                justify-content: center;
+                gap: 5px;
+            }
+            
+            .mood-option {
+                width: 80px;
+                padding: 8px 5px;
+            }
+            
+            .mood-emoji {
+                font-size: 35px;
+            }
+            
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-smile-beam"></i>
+                <h1>Mood Map</h1>
+            </div>
+            <p class="tagline">Track your emotions, understand your patterns, and grow stronger</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="section">
+                <h2>How are you feeling today?</h2>
+                
+                <div class="mood-options">
+                    <div class="mood-option" data-mood="awful">
+                        <div class="mood-emoji">😢</div>
+                        <div class="mood-name">Awful</div>
+                    </div>
+                    <div class="mood-option" data-mood="sad">
+                        <div class="mood-emoji">😔</div>
+                        <div class="mood-name">Sad</div>
+                    </div>
+                    <div class="mood-option" data-mood="meh">
+                        <div class="mood-emoji">😐</div>
+                        <div class="mood-name">Meh</div>
+                    </div>
+                    <div class="mood-option" data-mood="good">
+                        <div class="mood-emoji">🙂</div>
+                        <div class="mood-name">Good</div>
+                    </div>
+                    <div class="mood-option" data-mood="radiant">
+                        <div class="mood-emoji">😁</div>
+                        <div class="mood-name">Radiant</div>
+                    </div>
+                </div>
+                
+                <div class="note-section">
+                    <h3>Add a note (optional)</h3>
+                    <textarea placeholder="What's contributing to your mood today?"></textarea>
+                </div>
+                
+                <button id="logMood">Log My Mood</button>
+                
+                <div class="quote">
+                    "Your feelings are valid. Acknowledging them is the first step toward understanding."
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Your Mood Progress</h2>
+                
+                <div class="progress-chart">
+                    <div class="chart-container" id="chart">
+                        <!-- Chart bars will be generated by JavaScript -->
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-item">
+                            <h3 id="currentStreak">5</h3>
+                            <p>Day Streak</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="avgMood">3.8</h3>
+                            <p>Avg. Mood</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3 id="entries">24</h3>
+                            <p>Entries</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h2>Weekly Insights</h2>
+                <div class="insights">
+                    <p>Your mood tends to be higher on weekends. You often report feeling better after exercise.</p>
+                    <p>Consider scheduling a 15-minute walk on days when you're feeling down.</p>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Your data is private and confidential. This tool is designed to help you understand your emotional patterns.</p>
+            <p>If you're struggling, remember it's okay to ask for help. You're not alone.</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample mood data for demonstration
+            const moodData = [
+                { day: 'Mon', value: 3 },
+                { day: 'Tue', value: 4 },
+                { day: 'Wed', value: 2 },
+                { day: 'Thu', value: 3 },
+                { day: 'Fri', value: 5 },
+                { day: 'Sat', value: 4 },
+                { day: 'Sun', value: 5 }
+            ];
+            
+            const moodOptions = document.querySelectorAll('.mood-option');
+            let selectedMood = null;
+            
+            // Set up mood selection
+            moodOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    moodOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                    selectedMood = this.getAttribute('data-mood');
+                });
+            });
+            
+            // Set up chart
+            const chart = document.getElementById('chart');
+            moodData.forEach(data => {
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = (data.value * 30) + 'px';
+                
+                const label = document.createElement('div');
+                label.className = 'chart-label';
+                label.textContent = data.day;
+                
+                bar.appendChild(label);
+                chart.appendChild(bar);
+            });
+            
+            // Log mood button
+            document.getElementById('logMood').addEventListener('click', function() {
+                if (!selectedMood) {
+                    alert('Please select how you are feeling today.');
+                    return;
+                }
+                
+                // In a real application, this would send data to a server
+                alert(`Thanks for sharing that you're feeling ${selectedMood} today. Your mood has been logged.`);
+                
+                // Reset selection
+                moodOptions.forEach(opt => opt.classList.remove('selected'));
+                selectedMood = null;
+                document.querySelector('textarea').value = '';
+            });
+        });
+    </script>
+</body>
+</html>

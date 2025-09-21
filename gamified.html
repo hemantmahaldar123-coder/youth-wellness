@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Games - Mental Wellness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        :root {
+            --primary: #6e8efb;
+            --secondary: #a777e3;
+            --accent: #ff6f61;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --success: #48dbb5;
+            --warning: #fdcb6e;
+            --nature: #4CAF50;
+            --calm: #2196F3;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+        }
+        
+        .games-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .game-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            transition: all 0.4s ease;
+        }
+        
+        .game-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .game-desc {
+            color: #7a7a7a;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .play-btn {
+            padding: 12px 25px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn:hover {
+            background: var(--secondary);
+            transform: scale(1.05);
+        }
+        
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .game-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            text-align: center;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            color: #7a7a7a;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+        
+        /* Relaxation Puzzle */
+        .puzzle-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 20px auto;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .puzzle-piece {
+            background-size: 300px 300px;
+            background-color: #ddd;
+            border: 2px solid white;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .puzzle-piece:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Stress Buster */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), transparent 40%);
+            cursor: pointer;
+            animation: float 5s infinite ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.5);
+            font-weight: bold;
+            user-select: none;
+        }
+        
+        .bubble-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            margin: 20px 0;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
+            overflow: hidden;
+        }
+        
+        /* Emotion Explorer */
+        .emotion-wheel {
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            position: relative;
+        }
+        
+        .wheel-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        .emotion-option {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            transform-origin: 150px 150px;
+        }
+        
+        .emotion-option:hover {
+            transform: scale(1.1);
+        }
+        
+        /* Mindful Coloring */
+        .coloring-canvas {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: #f0f0f0;
+            cursor: crosshair;
+        }
+        
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Gratitude Garden */
+        .garden-container {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 10px;
+            background: linear-gradient(to bottom, #a5d6a7, #e8f5e9);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .garden-spot {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #8d6e63;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+        .plant-option {
+            padding: 10px 15px;
+            background: var(--nature);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        
+        /* Game Elements */
+        .score-display {
+            font-size: 20px;
+            margin: 15px 0;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .timer {
+            font-size: 24px;
+            margin: 15px 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @keyframes grow {
+            0% { transform: scale(0); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .games-container {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .puzzle-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .emotion-wheel {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .emotion-option {
+                transform-origin: 125px 125px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <span>Mindful Games</span>
+            </div>
+            <div class="user-info">
+                <div class="avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <div>Welcome, Player!</div>
+                    <div>Mental Wellness Level: 5</div>
+                </div>
+            </div>
+        </header>
+        
+        <div class="games-container">
+            <!-- Relaxation Puzzle -->
+            <div class="game-card">
+                <div class="game-icon" style="background: rgba(110, 142, 251, 0.1); color: var(--primary);">
+                    <i class="fas fa-puzzle-piece"></i>
+                </div>
+                <h2 class="game-title">Relaxation Puzzle</h2>
+                <p class="game-desc">Piece together calming images while practicing mindfulness and focus.</p>
+                <button class="play-btn" onclick="openGame('puzzleGame')">Play Now</button>
+            </div>
+            
+            <!-- Stress Buster -->
+            <div class="game-card">
+                <div class="game-icon" style="background: rgba(167, 119, 227, 0.1); color: var(--secondary);">
+                    <i class="fas fa-water"></i>
+                </div>
+                <h2 class="game-title">Stress Buster</h2>
+                <p class="game-desc">Pop bubbles with negative emotions and watch them transform into positive ones.</p>
+                <button class="play-btn" onclick="openGame('stressGame')">Play Now</button>
+            </div>
+            
+            <!-- Emotion Explorer -->
+            <div class="game-card">
+                <div class="game-icon" style="background: rgba(255, 111, 97, 0.1); color: var(--accent);">
+                    <i class="fas fa-smile"></i>
+                </div>
+                <h2 class="game-title">Emotion Explorer</h2>
+                <p class="game-desc">Navigate the wheel of emotions and discover coping strategies for each feeling.</p>
+                <button class="play-btn" onclick="openGame('emotionGame')">Play Now</button>
+            </div>
+            
+            <!-- Mindful Coloring -->
+            <div class="game-card">
+                <div class="game-icon" style="background: rgba(253, 203, 110, 0.1); color: var(--warning);">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2 class="game-title">Mindful Coloring</h2>
+                <p class="game-desc">Express yourself through colors in this therapeutic digital coloring book.</p>
+                <button class="play-btn" onclick="openGame('coloringGame')">Play Now</button>
+            </div>
+            
+            <!-- Gratitude Garden -->
+            <div class="game-card">
+                <div class="game-icon" style="background: rgba(72, 219, 181, 0.1); color: var(--success);">
+                    <i class="fas fa-seedling"></i>
+                </div>
+                <h2 class="game-title">Gratitude Garden</h2>
+                <p class="game-desc">Plant seeds of gratitude and watch your positive garden grow over time.</p>
+                <button class="play-btn" onclick="openGame('gardenGame')">Play Now</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Relaxation Puzzle Game -->
+    <div class="game-modal" id="puzzleGame">
+        <div class="game-content">
+            <span class="close-btn" onclick="closeGame('puzzleGame')">&times;</span>
+            <h2>Relaxation Puzzle</h2>
+            <p>Reassemble the peaceful image. Take deep breaths as you place each piece.</p>
+            
+            <div class="puzzle-container" id="puzzleContainer"></div>
+            
+            <div class="score-display">Pieces placed: <span id="piecesPlaced">0</span>/9</div>
+            <div class="timer">Time: <span id="puzzleTime">0</span>s</div>
+            
+            <button class="play-btn" onclick="resetPuzzle()">New Puzzle</button>
+        </div>
+    </div>
+    
+    <!-- Stress Buster Game -->
+    <div class="game-modal" id="stressGame">
+        <div class="game-content">
+            <span class="close-btn" onclick="closeGame('stressGame')">&times;</span>
+            <h2>Stress Buster</h2>
+            <p>Click on the stress bubbles to release them. Watch how they transform!</p>
+            
+            <div class="bubble-container" id="bubbleContainer"></div>
+            
+            <div class="score-display">Bubbles popped: <span id="bubblesPopped">0</span></div>
+            <div class="timer">Time: <span id="stressTime">30</span>s</div>
+            
+            <button class="play-btn" id="startStress">Start Game</button>
+        </div>
+    </div>
+    
+    <!-- Emotion Explorer Game -->
+    <div class="game-modal" id="emotionGame">
+        <div class="game-content">
+            <span class="close-btn" onclick="closeGame('emotionGame')">&times;</span>
+            <h2>Emotion Explorer</h2>
+            <p>Click on different emotions to learn about them and discover coping strategies.</p>
+            
+            <div class="emotion-wheel">
+                <div class="wheel-center">Feelings</div>
+                <div class="emotion-option" style="transform: rotate(0deg) translate(110px) rotate(-0deg);" data-emotion="joy">😊 Joy</div>
+                <div class="emotion-option" style="transform: rotate(72deg) translate(110px) rotate(-72deg);" data-emotion="sadness">😢 Sadness</div>
+                <div class="emotion-option" style="transform: rotate(144deg) translate(110px) rotate(-144deg);" data-emotion="anger">😠 Anger</div>
+                <div class="emotion-option" style="transform: rotate(216deg) translate(110px) rotate(-216deg);" data-emotion="fear">😨 Fear</div>
+                <div class="emotion-option" style="transform: rotate(288deg) translate(110px) rotate(-288deg);" data-emotion="surprise">😲 Surprise</div>
+            </div>
+            
+            <div id="emotionInfo" style="margin: 20px 0; min-height: 100px;">
+                <p>Select an emotion to learn more about it</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mindful Coloring Game -->
+    <div class="game-modal" id="coloringGame">
+        <div class="game-content">
+            <span class="close-btn" onclick="closeGame('coloringGame')">&times;</span>
+            <h2>Mindful Coloring</h2>
+            <p>Select a color and fill the design. Focus on the present moment as you color.</p>
+            
+            <canvas class="coloring-canvas" id="coloringCanvas" width="500" height="300"></canvas>
+            
+            <div class="color-palette">
+                <div class="color-option" style="background: #ff6b6b;" data-color="#ff6b6b"></div>
+                <div class="color-option" style="background: #ff9f68;" data-color="#ff9f68"></div>
+                <div class="color-option" style="background: #feca57;" data-color="#feca57"></div>
+                <div class="color-option" style="background: #48dbb5;" data-color="#48dbb5"></div>
+                <div class="color-option" style="background: #6e8efb;" data-color="#6e8efb"></div>
+                <div class="color-option" style="background: #a777e3;" data-color="#a777e3"></div>
+                <div class="color-option" style="background: #000000;" data-color="#000000"></div>
+            </div>
+            
+            <button class="play-btn" onclick="clearColoring()">Clear Canvas</button>
+        </div>
+    </div>
+    
+    <!-- Gratitude Garden Game -->
+    <div class="game-modal" id="gardenGame">
+        <div class="game-content">
+            <span class="close-btn" onclick="closeGame('gardenGame')">&times;</span>
+            <h2>Gratitude Garden</h2>
+            <p>Plant seeds of gratitude by writing things you're thankful for. Watch your garden grow!</p>
+            
+            <div class="garden-container" id="gardenContainer"></div>
+            
+            <div style="margin: 20px 0;">
+                <input type="text" id="gratitudeInput" placeholder="Something I'm grateful for..." style="padding: 10px; width: 70%; border-radius: 20px; border: 1px solid #ddd;">
+                <button class="plant-option" onclick="plantGratitude()">Plant</button>
+            </div>
+            
+            <div class="score-display">Gratitude plants: <span id="plantsCount">0</span></div>
+        </div>
+    </div>
+
+    <script>
+        // Game Modal Functions
+        function openGame(gameId) {
+            document.getElementById(gameId).style.display = 'flex';
+            if (gameId === 'puzzleGame') initPuzzle();
+            if (gameId === 'coloringGame') initColoring();
+            if (gameId === 'gardenGame') initGarden();
+        }
+        
+        function closeGame(gameId) {
+            document.getElementById(gameId).style.display = 'none';
+        }
+        
+        // Relaxation Puzzle Game
+        function initPuzzle() {
+            const puzzleContainer = document.getElementById('puzzleContainer');
+            puzzleContainer.innerHTML = '';
+            
+            // Create puzzle pieces
+            for (let i = 0; i < 9; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece';
+                piece.style.backgroundImage = "url('https://placehold.co/300x300/6e8efb/white?text=Peaceful+Scene')";
+                piece.style.backgroundPosition = `${-(i % 3) * 100}px ${-Math.floor(i / 3) * 100}px`;
+                piece.dataset.correctPosition = i;
+                piece.addEventListener('click', () => {
+                    piece.style.opacity = '0.5';
+                    piece.style.cursor = 'default';
+                    const placed = parseInt(document.getElementById('piecesPlaced').textContent) + 1;
+                    document.getElementById('piecesPlaced').textContent = placed;
+                    
+                    if (placed === 9) {
+                        setTimeout(() => {
+                            alert('Puzzle complete! You found peace through focus.');
+                        }, 500);
+                    }
+                });
+                puzzleContainer.appendChild(piece);
+            }
+            
+            document.getElementById('piecesPlaced').textContent = '0';
+            
+            // Start timer
+            let seconds = 0;
+            setInterval(() => {
+                seconds++;
+                document.getElementById('puzzleTime').textContent = seconds;
+            }, 1000);
+        }
+        
+        function resetPuzzle() {
+            initPuzzle();
+        }
+        
+        // Stress Buster Game
+        document.getElementById('startStress').addEventListener('click', function() {
+            this.style.display = 'none';
+            const bubbleContainer = document.getElementById('bubbleContainer');
+            bubbleContainer.innerHTML = '';
+            let bubblesPopped = 0;
+            const stressTime = 30;
+            document.getElementById('stressTime').textContent = stressTime;
+            
+            // Create bubbles
+            const createBubble = () => {
+                if (parseInt(document.getElementById('stressTime').textContent) <= 0) return;
+                
+                const bubble = document.createElement('div');
+                bubble.className = 'bubble';
+                const size = Math.random() * 50 + 30;
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${Math.random() * 90}%`;
+                bubble.style.top = `${Math.random() * 80}%`;
+                bubble.style.animationDuration = `${Math.random() * 4 + 3}s`;
+                bubble.style.animationDelay = `${Math.random() * 2}s`;
+                
+                const stressWords = ['Worry', 'Stress', 'Anxiety', 'Fear', 'Doubt', 'Pressure'];
+                bubble.textContent = stressWords[Math.floor(Math.random() * stressWords.length)];
+                
+                bubble.addEventListener('click', function() {
+                    this.style.backgroundColor = '#48dbb5';
+                    this.textContent = ['Calm', 'Peace', 'Relax', 'Breathe', 'Release', 'Let go'][Math.floor(Math.random() * 6)];
+                    this.style.cursor = 'default';
+                    setTimeout(() => {
+                        this.remove();
+                    }, 1000);
+                    
+                    bubblesPopped++;
+                    document.getElementById('bubblesPopped').textContent = bubblesPopped;
+                });
+                
+                bubbleContainer.appendChild(bubble);
+                setTimeout(createBubble, Math.random() * 1000 + 500);
+            };
+            
+            createBubble();
+            
+            // Start timer
+            let timeLeft = stressTime;
+            const timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById('stressTime').textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    setTimeout(() => {
+                        alert(`Game over! You released ${bubblesPopped} stress bubbles.`);
+                        document.getElementById('startStress').style.display = 'inline-block';
+                    }, 1000);
+                }
+            }, 1000);
+        });
+        
+        // Emotion Explorer Game
+        document.querySelectorAll('.emotion-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const emotion = this.dataset.emotion;
+                const emotionInfo = document.getElementById('emotionInfo');
+                
+                const info = {
+                    joy: {
+                        title: "😊 Joy",
+                        description: "A feeling of great pleasure and happiness.",
+                        coping: "Savor the moment, share with others, practice gratitude."
+                    },
+                    sadness: {
+                        title: "😢 Sadness",
+                        description: "An emotional pain associated with loss or disappointment.",
+                        coping: "Allow yourself to feel, talk to someone, engage in comforting activities."
+                    },
+                    anger: {
+                        title: "😠 Anger",
+                        description: "A strong feeling of annoyance, displeasure, or hostility.",
+                        coping: "Take deep breaths, step away from the situation, physical activity."
+                    },
+                    fear: {
+                        title: "😨 Fear",
+                        description: "An unpleasant emotion caused by the threat of danger, pain, or harm.",
+                        coping: "Practice deep breathing, challenge fearful thoughts, gradual exposure."
+                    },
+                    surprise: {
+                        title: "😲 Surprise",
+                        description: "A brief emotional state experienced as the result of an unexpected event.",
+                        coping: "Take a moment to process, focus on breathing, embrace the unexpected."
+                    }
+                };
+                
+                emotionInfo.innerHTML = `
+                    <h3>${info[emotion].title}</h3>
+                    <p>${info[emotion].description}</p>
+                    <p><strong>Coping Strategies:</strong> ${info[emotion].coping}</p>
+                `;
+            });
+        });
+        
+        // Mindful Coloring Game
+        function initColoring() {
+            const canvas = document.getElementById('coloringCanvas');
+            const ctx = canvas.getContext('2d');
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+            let selectedColor = '#ff6b6b';
+            
+            // Draw mandala outline
+            ctx.beginPath();
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * 2 * Math.PI;
+                const x1 = 250 + Math.cos(angle) * 120;
+                const y1 = 150 + Math.sin(angle) * 120;
+                const x2 = 250 + Math.cos(angle) * 50;
+                const y2 = 150 + Math.sin(angle) * 50;
+                
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+            }
+            ctx.arc(250, 150, 120, 0, 2 * Math.PI);
+            ctx.arc(250, 150, 50, 0, 2 * Math.PI);
+            ctx.stroke();
+            
+            // Drawing functions
+            function startDrawing(e) {
+                isDrawing = true;
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+            
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.strokeStyle = selectedColor;
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+                
+                [lastX, lastY] = [e.offsetX, e.offsetY];
+            }
+            
+            function stopDrawing() {
+                isDrawing = false;
+            }
+            
+            // Event listeners for drawing
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+            
+            // Color selection
+            document.querySelectorAll('.color-option').forEach(colorBtn => {
+                colorBtn.addEventListener('click', function() {
+                    selectedColor = this.dataset.color;
+                });
+            });
+            
+            window.clearColoring = function() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                initColoring();
+            };
+        }
+        
+        // Gratitude Garden Game
+        function initGarden() {
+            const gardenContainer = document.getElementById('gardenContainer');
+            gardenContainer.innerHTML = '';
+            document.getElementById('plantsCount').textContent = '0';
+            
+            // Create garden spots
+            for (let i = 0; i < 5; i++) {
+                for (let j = 0; j < 3; j++) {
+                    const spot = document.createElement('div');
+                    spot.className = 'garden-spot';
+                    spot.style.left = `${20 + i * 20}%`;
+                    spot.style.top = `${20 + j * 30}%`;
+                    gardenContainer.appendChild(spot);
+                }
+            }
+        }
+        
+        function plantGratitude() {
+            const input = document.getElementById('gratitudeInput');
+            const gratitude = input.value.trim();
+            
+            if (gratitude) {
+                const plants = document.querySelectorAll('.garden-spot');
+                const emptySpots = Array.from(plants).filter(spot => spot.innerHTML === '');
+                
+                if (emptySpots.length > 0) {
+                    const spot = emptySpots[Math.floor(Math.random() * emptySpots.length)];
+                    
+                    const plant = document.createElement('div');
+                    plant.style.animation = 'grow 1s forwards';
+                    plant.innerHTML = `
+                        <div style="text-align: center; color: white; font-size: 12px; position: absolute; top: -25px; left: 0; right: 0;">
+                            ${gratitude}
+                        </div>
+                        <i class="fas fa-seedling" style="font-size: 30px; color: ${['#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B'][Math.floor(Math.random() * 4)]};"></i>
+                    `;
+                    
+                    spot.appendChild(plant);
+                    input.value = '';
+                    
+                    const count = parseInt(document.getElementById('plantsCount').textContent) + 1;
+                    document.getElementById('plantsCount').textContent = count;
+                    
+                    if (count === 15) {
+                        setTimeout(() => {
+                            alert('Your gratitude garden is in full bloom!');
+                        }, 500);
+                    }
+                } else {
+                    alert('Your garden is full of gratitude! Start a new garden.');
+                }
+            }
+        }
+        
+        // Close modals when clicking outside
+        document.querySelectorAll('.game-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeGame(this.id);
+            });
+        });
+    </script>
+</body>
+</html>
